@@ -1,0 +1,35 @@
+body {
+    background-color: #1a1e29; /* Fondo oscuro profundo */
+    color: white;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+.login-card {
+    background-color: #252b3b;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    width: 100%;
+    max-width: 400px;
+}
+
+.brand-title {
+    color: #7b2cbf; /* Morado */
+    font-weight: bold;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: #7b2cbf;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #5a189a;
+}

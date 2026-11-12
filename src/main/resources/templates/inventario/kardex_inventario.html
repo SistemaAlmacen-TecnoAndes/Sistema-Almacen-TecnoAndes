@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kardex - LogiStock</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+    <div class="sidebar">
+        <a href="/dashboard" class="brand"><i class="bi bi-box-seam"></i> TecnoAndes Perú S.A.C</a>
+        <a href="/dashboard"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+        <a href="/productos"><i class="bi bi-box"></i> Productos</a>
+        <a href="/inventario/entradas"><i class="bi bi-arrow-down-circle"></i> Entradas</a>
+        <a href="/inventario/salidas"><i class="bi bi-arrow-up-circle"></i> Salidas</a>
+        <a href="/inventario/kardex_inventario" class="active"><i class="bi bi-journal-text"></i> Kardex / Inventario</a>
+    </div>
+
+    <div class="main-content">
+        <div class="top-navbar">
+            <h4 class="m-0 text-dark">Kardex - Historial Completo de Movimientos</h4>
+        </div>
+
+        <div class="dashboard-panel">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr><th>Fecha</th><th>Tipo</th><th>Producto</th><th>Cant.</th><th>Stock Ant.</th><th>Stock Nuevo</th><th>Usuario</th></tr>
+                </thead>
+                <tbody>
+                    <tr th:each="m : ${movimientos}">
+                        <td th:text="${#temporals.format(m.fecha, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td>
+                            <span th:if="${m.tipo == 'ENTRADA'}" class="badge bg-success">ENTRADA</span>
+                            <span th:if="${m.tipo == 'SALIDA'}" class="badge bg-danger">SALIDA</span>
+                        </td>
+                        <td th:text="${m.producto.nombre}"></td>
+                        <td th:text="${m.cantidad}"></td>
+                        <td th:text="${m.stockAnterior}"></td>
+                        <td th:text="${m.stockNuevo}"></td>
+                        <td th:text="${m.usuario.username}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
