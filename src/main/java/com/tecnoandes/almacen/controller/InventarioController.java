@@ -19,34 +19,32 @@ public class InventarioController {
     @Autowired
     private ProductoService productoService;
 
-    // 1. RUTA PARA ENTRADAS
+    // 1. ENTRADAS (Carpeta suelta en templates)
     @GetMapping("/entradas")
     public String mostrarEntradas(Model model) {
         model.addAttribute("productos", productoService.listarTodos());
-        // Filtramos solo los movimientos de tipo ENTRADA
         model.addAttribute("movimientos", inventarioService.listarMovimientos()
                 .stream().filter(m -> m.getTipo().equals("ENTRADA")).toList());
-        return "inventario/entradas";
+        return "entradas/entradas"; 
     }
 
-    // 2. RUTA PARA SALIDAS
+    // 2. SALIDAS (Carpeta suelta en templates)
     @GetMapping("/salidas")
     public String mostrarSalidas(Model model) {
         model.addAttribute("productos", productoService.listarTodos());
-        // Filtramos solo los movimientos de tipo SALIDA
         model.addAttribute("movimientos", inventarioService.listarMovimientos()
                 .stream().filter(m -> m.getTipo().equals("SALIDA")).toList());
-        return "inventario/salidas";
+        return "salidas/salidas"; 
     }
 
-    // 3. RUTA PARA KARDEX (HISTORIAL COMPLETO)
-    @GetMapping("/kardex_inventario")
+    // 3. KARDEX (Dentro de la carpeta inventario)
+    @GetMapping("/kardex")
     public String mostrarKardex(Model model) {
         model.addAttribute("movimientos", inventarioService.listarMovimientos());
-        return "inventario/kardex_inventario";
+        return "inventario/kardex_inventario"; 
     }
 
-    // 4. RUTA PARA REGISTRAR (Recibe tanto Entradas como Salidas)
+    // 4. REGISTRAR
     @PostMapping("/registrar")
     public String registrarMovimiento(@RequestParam Long productoId,
                                       @RequestParam String tipo,
@@ -60,7 +58,6 @@ public class InventarioController {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         
-        // Redirigir a la vista correspondiente después de guardar
         if (tipo.equals("ENTRADA")) {
             return "redirect:/inventario/entradas";
         } else {
