@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Configuración - LogiStock</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+    <div class="sidebar">
+        <a href="/dashboard" class="brand"><i class="bi bi-box-seam"></i> TecnoAndes Perú S.A.C</a>
+        <a href="/dashboard"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+        <a href="/productos"><i class="bi bi-box"></i> Productos</a>
+        <a href="/categorias"><i class="bi bi-tags"></i> Categorías</a>
+        <a href="/proveedores"><i class="bi bi-truck"></i> Proveedores</a>
+        <a href="/clientes"><i class="bi bi-people"></i> Clientes</a>
+        <a href="/inventario/entradas"><i class="bi bi-arrow-down-circle"></i> Entradas</a>
+        <a href="/inventario/salidas"><i class="bi bi-arrow-up-circle"></i> Salidas</a>
+        <a href="/inventario/kardex"><i class="bi bi-journal-text"></i> Kardex / Inventario</a>
+        <a href="/reportes"><i class="bi bi-bar-chart"></i> Reportes</a>
+        <a href="/usuarios"><i class="bi bi-person-gear"></i> Usuarios</a>
+        <a href="/configuracion"><i class="bi bi-gear"></i> Configuración</a>
+    </div>
+
+    <div class="main-content">
+        <div class="top-navbar d-flex justify-content-between align-items-center">
+            <h4 class="m-0 text-dark">Configuración del Sistema</h4>
+            <!-- Bloque de Auditoría -->
+            <small class="text-muted" th:if="${config.ultimaModificacion != null}">
+                <i class="bi bi-clock-history"></i> Última modificación: 
+                <span th:text="${#temporals.format(config.ultimaModificacion, 'dd/MM/yyyy HH:mm')}"></span> 
+                por <strong th:text="${config.modificadoPor}"></strong>
+            </small>
+        </div>
+
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill"></i> <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div class="dashboard-panel">
+            <form th:action="@{/configuracion/guardar}" th:object="${config}" method="post">
+                
+                <!-- Pestañas -->
+                <ul class="nav nav-tabs mb-4" id="configTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="empresa-tab" data-bs-toggle="tab" data-bs-target="#empresa" type="button" role="tab"><i class="bi bi-building"></i> Empresa</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="inventario-tab" data-bs-toggle="tab" data-bs-target="#inventario" type="button" role="tab"><i class="bi bi-box-seam"></i> Inventario</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="seguridad-tab" data-bs-toggle="tab" data-bs-target="#seguridad" type="button" role="tab"><i class="bi bi-shield-lock"></i> Seguridad</button>
+                    </li>
+                </ul>
+
+                <!-- Contenido de Pestañas -->
+                <div class="tab-content" id="configTabsContent">
+                    
+                    <!-- Pestaña 1: Empresa -->
+                    <div class="tab-pane fade show active" id="empresa" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nombre de la Empresa</label>
+                                <input type="text" th:field="*{nombreEmpresa}" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">RUC</label>
+                                <input type="text" th:field="*{ruc}" class="form-control" maxlength="11" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Correo de Soporte</label>
+                                <input type="email" th:field="*{correoSoporte}" class="form-control">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Moneda</label>
+                                <select th:field="*{moneda}" class="form-select">
+                                    <option value="PEN">Soles (S/)</option>
+                                    <option value="USD">Dólares ($)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Filas por Tabla</label>
+                                <select th:field="*{registrosPorPagina}" class="form-select">
+                                    <option value="10">10 registros</option>
+                                    <option value="20">20 registros</option>
+                                    <option value="50">50 registros</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pestaña 2: Inventario -->
+                    <div class="tab-pane fade" id="inventario" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Stock Mínimo por Defecto</label>
+                                <input type="number" th:field="*{stockMinimoDefecto}" class="form-control" required min="1">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Prefijo de Productos</label>
+                                <input type="text" th:field="*{prefijoProducto}" class="form-control" required>
+                            </div>
+                            <div class="col-md-4 mb-3 d-flex align-items-center">
+                                <div class="form-check form-switch mt-4">
+                                    <input class="form-check-input" type="checkbox" th:field="*{permitirStockNegativo}" id="switchStock">
+                                    <label class="form-check-label" for="switchStock">Permitir Stock Negativo en Salidas</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pestaña 3: Seguridad -->
+                    <div class="tab-pane fade" id="seguridad" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Tiempo de Sesión (Minutos)</label>
+                                <input type="number" th:field="*{tiempoSesionMinutos}" class="form-control" required min="5">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Longitud Mínima de Contraseña</label>
+                                <input type="number" th:field="*{minLongitudPassword}" class="form-control" required min="6">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary px-4" style="background-color: #7b2cbf; border: none;">
+                        <i class="bi bi-save"></i> Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

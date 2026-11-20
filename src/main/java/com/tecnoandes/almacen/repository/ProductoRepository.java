@@ -9,6 +9,6 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     
     Optional<Producto> findByCodigo(String codigo);
     
-    // Buscar productos que tengan stock menor o igual al stock mínimo (Para las alertas)
+    // Esta línea es la que usa el "Toque Mágico" para buscar stock bajo
     List<Producto> findByStockLessThanEqual(Integer stock);
 }

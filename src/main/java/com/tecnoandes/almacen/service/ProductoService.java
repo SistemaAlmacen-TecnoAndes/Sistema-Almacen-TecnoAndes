@@ -14,29 +14,24 @@ public class ProductoService {
     @Autowired
     private ProductoRepository productoRepository;
 
-    // Listar todos los productos
     public List<Producto> listarTodos() {
         return productoRepository.findAll();
     }
 
-    // Guardar o actualizar un producto
     public Producto guardar(Producto producto) {
         return productoRepository.save(producto);
     }
 
-    // Buscar un producto por ID
     public Optional<Producto> buscarPorId(Long id) {
         return productoRepository.findById(id);
     }
 
-    // Eliminar un producto
     public void eliminar(Long id) {
         productoRepository.deleteById(id);
     }
     
-    // Obtener productos con stock bajo (para el dashboard)
-    public List<Producto> obtenerStockCritico() {
-        // Lógica simple: productos con stock menor a 5
-        return productoRepository.findByStockLessThanEqual(5);
+    // ESTE ES EL MÉTODO PARA EL TOQUE MÁGICO
+    public List<Producto> buscarStockCritico(Integer limite) {
+        return productoRepository.findByStockLessThanEqual(limite);
     }
 }
