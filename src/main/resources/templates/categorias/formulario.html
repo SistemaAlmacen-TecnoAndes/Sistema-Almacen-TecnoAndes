@@ -9,7 +9,27 @@
 </head>
 <body>
     <div class="sidebar">
-        <a href="/dashboard" class="brand"><i class="bi bi-box-seam"></i> TecnoAndes Perú S.A.C</a>
+        <a href="/dashboard" class="brand">
+            <svg viewBox="0 0 120 124" fill="none" xmlns="http://www.w3.org/2000/svg" class="brand-svg">
+              <path d="M22 48L40 28L49 38" stroke="#7b2cbf" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M98 48L80 28L71 38" stroke="#7b2cbf" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M35 48L60 18L85 48L60 61L35 48Z" fill="#181824" stroke="#7b2cbf" stroke-width="5.5" stroke-linejoin="round"/>
+              <path d="M60 18L51 43L60 61" stroke="#a855f7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M60 61V98" stroke="#7b2cbf" stroke-width="5.5" stroke-linecap="round"/>
+              <path d="M32 54L50 64V96L30 84V74L22 69" stroke="#7b2cbf" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M41 68V83L26 74" stroke="#a855f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M88 54L70 64V96L90 84V74L98 69" stroke="#7b2cbf" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M79 68V83L94 74" stroke="#a855f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="22" cy="54" r="5.5" fill="#181824" stroke="#22c55e" stroke-width="4"/>
+              <circle cx="17" cy="68" r="5.5" fill="#181824" stroke="#22c55e" stroke-width="4"/>
+              <circle cx="98" cy="54" r="5.5" fill="#181824" stroke="#22c55e" stroke-width="4"/>
+              <circle cx="103" cy="68" r="5.5" fill="#181824" stroke="#22c55e" stroke-width="4"/>
+              <circle cx="60" cy="108" r="5.5" fill="#181824" stroke="#22c55e" stroke-width="4"/>
+            </svg>
+            <span class="brand-title">Tecno<span>Andes</span></span>
+            <span class="brand-ruc">PERÚ S.A.C.</span>
+            <span class="brand-desc">Sistema de Gestión de Inventario</span>
+        </a>
         <a href="/dashboard"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
         <a href="/productos"><i class="bi bi-box"></i> Productos</a>
         <a href="/categorias" class="active"><i class="bi bi-tags"></i> Categorías</a>
@@ -21,7 +41,9 @@
         <a href="/reportes"><i class="bi bi-bar-chart"></i> Reportes</a>
         
         <!-- Solo para Admin -->
-        <a href="/usuarios"><i class="bi bi-person-gear"></i> Usuarios</a>
+        <a sec:authorize="hasRole('ADMIN')" href="/usuarios">
+            <i class="bi bi-person-gear"></i> Usuarios
+        </a>
     </div>
 
     <div class="main-content">
